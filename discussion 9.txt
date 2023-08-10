@@ -1,0 +1,60 @@
+In your initial post, describe your data, state which cross-validation technique you used, and explain your rationale for deciding on which cross-validation technique was the most appropriate for your specific dataset.
+
+Data Set
+
+For this exercise, I wanted to find a larger data set with predominantly numerical data. I found 'Istanbul Weather Data' which contains 12 columns, one of them being 'Condition' which included string values like 'Overcast'. After dropping the rows containing NaN values, I proceeded to convert the dates and times into numerical representations using the 'time' library.
+I then encoded the 'Condition' column (resulting in an additional 26 columns), I dropped the 'Condition' column & joined the newly-created, encoded equivalents. At the end, I was left with a 3594/37 matrix.
+
+Since I wanted to use this model to predict 'Rain', I set X to be all columns except 'Rain' and set y to 'Rain'. I then used train_test_split to split the data: X_test 1079/36, y_test 1079/1, X_train 2515/36, y_train 2515/1.
+
+Cross-validation Techniques
+
+To be honest, I wanted to try out the techniques in this module, both as practice but also as a way to compare their performance side-by-side.
+
+GridSearchCV with Ridge
+
+I wanted to see what alpha value would be best used in this model. I tried values from 0.00 - 100,000.
+
+Train MSE: 3.0732670520945002
+Test MSE: 3.895120045850751
+Best Alpha: 1000.0
+
+GridSearchCV with SequentalFeatureSelector
+
+Train MSE: 2.9652686748084296
+Test MSE: 4.0547508588082914
+
+PolynomialFeatures with SequentialFeatureSelector
+
+This was an interesting experiment. I ran it several times with 'features to select' for the values 5, 10 & 20. The last took a LONG time to run
+
+[TODO: insert screen grabs]
+
+PolynomialFeatures with Ridge
+
+Train MSE: 2.322780015415052
+Test MSE: 9.32719243017728
+Best Alpha: 100.0
+
+What is interesting here, is that if you compare this result to the earlier 'GridSearchCV with Ridge', this 'test' MSE is much higher and the former has MSE's for training & testing much closer together.
+
+PolynomialFeatures with Lasso
+
+Train MSE: 6.211410182183243
+Test MSE: 6.809266960594935
+
+Fairly consistent as far as 'training' & 'testing' sets but a high MSE
+
+PolynomialFeatures with SequentialFeatureSelector
+
+Train MSE: 3.975857398290398
+Test MSE: 6.579337148359592
+
+Similar to the 'PolynomialFeatures with Ridge'; the training set has a much lower MSE than the test.
+
+Conclusion
+
+Both the 'PolynomialFeatures with Lasso' & 'GridSearchCV with Ridge' have training & testing MSE fairly close to one another. It would appear that for this set, the later would perform better.
+
+
+
